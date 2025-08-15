@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>BAE BEAUTY</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fuentes locales -->
+  <style>
+    @font-face {
+      font-family: 'Montserrat';
+      src: url('fuentes/Montserrat.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Playfair Display';
+      src: url('fuentes/PlayfairDisplay.woff2') format('woff2');
+      font-display: swap;
+    }
+
+    :root{
+      --rosa:#e091af;          /* acento cálido (cercano, femenino) */
+      --rosa-osc:#d28ea0;      /* marca */
+      --magenta:#d81b60;       /* llamado a la acción */
+      --rose-soft:#fdf1f5;     /* fondo suave (confianza) */
+      --rose-card:#ffe4ec;     /* tarjetas carrito */
+      --gold:#c8a75c;          /* lujo/destacar */
+      --text:#333;
+      --muted:#555;
+      --borde:#e9d8df;
+      --bg:#fffafc;
+    }
+
+    *{box-sizing:border-box}
+    body {
+      margin: 0;
+      font-family: 'Montserrat', system-ui, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    header, nav {
+      background-color: #fff;
+      padding: 20px 40px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .logo {
+      font-size: 24px;
+      color: var(--rosa-osc);
+      font-weight: bold;
+      font-family: 'Playfair Display', serif;
+      letter-spacing: .5px;
+    }
+    nav a {
+      margin: 0 12px;
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    nav a:hover { color: var(--rosa-osc); }
+
+    section { padding: 60px 20px; }
+
+    .hero {
+      background: linear-gradient(180deg, var(--rose-soft), #fff 70%);
+      text-align: center;
+      padding-top: 80px;
+      padding-bottom: 80px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 4vw, 42px);
+      color: var(--rosa-osc);
+      margin: 0 0 10px;
+      font-family: 'Playfair Display', serif;
+    }
+    .highlight { color: var(--rosa); font-weight: 700; }
+    .hero p { max-width: 800px; margin: 0 auto; color:#444 }
+
+    /* Promo Instagram */
+    .ig-promo{
+      margin: -30px auto 30px;
+      max-width: 1100px;
+      background: #fff;
+      border: 1px solid var(--borde);
+      box-shadow: 0 6px 24px rgba(0,0,0,.06);
+      border-radius: 16px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+    .ig-promo h3{
+      margin: 0 0 6px;
+      font-family: 'Playfair Display', serif;
+      color:#222;
+    }
+    .ig-promo p{ margin:0; color:#555 }
+    .btn{
+      display:inline-block;
+      background: var(--magenta);
+      color:#fff;
+      text-decoration:none;
+      border:none;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .03s ease, opacity .2s ease;
+    }
+    .btn:hover{ opacity:.95; }
+    .btn:active{ transform: translateY(1px); }
+    .btn-gold{
+      background: linear-gradient(90deg, var(--gold), #e5cd88);
+      color:#503d1a;
+    }
+
+    /* Slider */
+    .slider {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 20px;
+      padding: 10px 20px 20px;
+    }
+    .slider img {
+      flex-shrink: 0;
+      width: 100%;
+      max-width: 1100px;
+      height: auto;
+      scroll-snap-align: center;
+      border-radius: 16px;
+      border: 1px solid var(--borde);
+    }
+
+    h2 {
+      color: #880e4f;
+      font-family: 'Playfair Display', serif;
+      margin-top: 0;
+    }
+
+    /* Tienda */
+    .tienda {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .producto {
+      border: 1px solid var(--borde);
+      padding: 12px;
+      text-align: center;
+      background-color: #fff;
+      border-radius: 12px;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .producto:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,.06);
+    }
+    .producto a{
+      display:block;
+      text-decoration:none;
+      color:inherit;
+    }
+    .producto img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border: 1px solid var(--borde);
+    }
+    .precio{
+      font-weight: 800;
+      color: var(--magenta);
+      margin: 6px 0 10px;
+    }
+    .badge{
+      display:inline-block;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border:1px solid #f1dfe6;
+      color:#8a5b6a;
+      background: #fff7fb;
+      margin-bottom: 6px;
+    }
+
+    /* Carrito */
+    .carrito {
+      margin-top: 40px;
+      padding: 20px;
+      border-top: 2px solid var(--rosa-osc);
+      background-color: #fce4ec;
+      border-radius: 12px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #lista-carrito { list-style: none; padding-left: 0; margin:0 }
+    .item-carrito {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: 10px;
+      align-items: center;
+      background-color: var(--rose-card);
+      margin-bottom: 8px;
+      padding: 10px;
+      border-radius: 10px;
+      border:1px solid #ffd7e2;
+    }
+    .qty{
+      display:flex; align-items:center; gap:6px;
+    }
+    .qty button{
+      padding: 2px 8px;
+      border-radius: 6px;
+      border:none;
+      background:#ffd0da;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .item-carrito .del{
+      background-color: #ff8a80;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      border:none; cursor:pointer;
+    }
+    #total {
+      font-weight: bold;
+      text-align: right;
+      margin-top: 15px;
+      color: var(--magenta);
+    }
+
+    /* Secciones anchas */
+    .wrap{ max-width: 1100px; margin:0 auto; }
+
+    /* Pie con guía de hosting (solo texto informativo) */
+    .hosting{
+      font-size: 14px;
+      color:#555;
+      background:#fff;
+      border-top:1px dashed #edd2da;
+      margin-top: 40px;
+      padding-top: 10px;
+    }
+
+    @media (max-width:640px){
+      header, nav{ padding: 14px 16px; }
+      .ig-promo{ grid-template-columns: 1fr; text-align:center; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">bae beauty</div>
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#productos">Productos</a>
+      <a href="#skincare">Skincare</a>
+      <a href="#maquillaje">Maquillaje</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="inicio">
+    <h1>Bienvenida a <span class="highlight">BAE BEAUTY</span></h1>
+    <p>Descubre el secreto para una piel radiante y un cuidado de belleza que te hace sentir bien contigo misma.</p>
+  </section>
+
+  <!-- Promo Instagram -->
+  <div class="ig-promo wrap" aria-label="Promoción de Instagram">
+    <div>
+      <h3>✨ Únete a nuestra comunidad en Instagram</h3>
+      <p>Looks, tips de skincare y promos exclusivas. ¡Síguenos y etiqueta tu #BAEBEAUTY!</p>
+    </div>
+    <a href="https://www.instagram.com/baebeauty____?utm_source=qr&igsh=MWRxOTltaTRvODJ4OQ==" target="_blank" class="btn-instagram">
+    Síguenos en Instagram
+</a>  </div>
+
+  <!-- Slider (respetando tu ruta rara de ejemplo) -->
+  <div class="slider wrap">
+    <img src="index.html/imagenes/modelo11.jpg" alt="Campaña BAE BEAUTY">
+  </div>
+
+  <section id="productos" class="wrap">
+    <h2>Productos</h2>
+    <div class="tienda">
+
+      <div class="producto">
+        <a href="productos/skynny-blue.html" title="Ver SKYNNY BLUE">
+          <span class="badge">Fitness</span>
+          
+<a href="skynny-blue.html">
+  <img src="index.html/imagenes/blue1.jpg" alt="Conjunto deportivo"></div>
+</a>
+<button onclick="agregarAlCarrito('SKYNNY BLUE', 1050)">Agregar al carrito</button>
+      <div class="producto">
+        <a href="productos/tinte-labios.html" title="Ver Tinta de labios">
+          <span class="badge">Labios</span>
+          <img src="imagenes/tintlabios.jpg" alt="Tinte labial">
+          <h3>Tinta de labios</h3>
+        </a>
+        <div class="precio">$990.90</div>
+        <button class="btn" onclick="agregarAlCarrito('Tinta de labios', 990.90)">Agregar al carrito</button>
+      </div>
+
+      <div class="producto">
+        <a href="productos/tubos-seda.html" title="Ver Tubos de seda">
+          <span class="badge">Cabello</span>
+          <img src="imagenes/hair1.jpg" alt="Tubos de seda">
+          <h3>Tubos de seda</h3>
+        </a>
+        <div class="precio">$280.00</div>
+        <button class="btn" onclick="agregarAlCarrito('Tubos de seda', 280)">Agregar al carrito</button>
+      </div>
+
+      <div class="producto">
+        <a href="productos/sombras-maquillaje.html" title="Ver Sombras de maquillaje">
+          <span class="badge">Ojos</span>
+          <img src="imagenes/paleta1.jpg" alt="Sombras de maquillaje">
+          <h3>Sombras de maquillaje</h3>
+        </a>
+        <div class="precio">$950.00</div>
+        <button class="btn" onclick="agregarAlCarrito('Sombras de maquillaje', 950)">Agregar al carrito</button>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="skincare" class="wrap">
+    <h2>Skincare</h2>
+    <div class="tienda">
+
+      <div class="producto">
+        <a href="productos/serum-hidratante.html" title="Ver Serum hidratante">
+          <span class="badge">Serums</span>
+          <img src="index.html/imagenes/serum1.jpg" alt="Serum hidratante">
+          <h3>Serum hidratante</h3>
+        </a>
+        <div class="precio">$430.00</div>
+        <button class="btn" onclick="agregarAlCarrito('Serum hidratante', 430)">Agregar al carrito</button>
+      </div>
+
+      <div class="producto">
+        <a href="productos/limpiador-facial.html" title="Ver Limpiador facial">
+          <span class="badge">Limpieza</span>
+          <img src="index.html/imagenes/limpiador11.jpg" alt="Limpiador facial">
+          <h3>Limpiador facial</h3>
+        </a>
+        <div class="precio">$350.00</div>
+        <button class="btn" onclick="agregarAlCarrito('Limpiador facial', 350)">Agregar al carrito</button>
+      </div>
+
+      <div class="producto">
+        <a href="productos/crema-hidratante.html" title="Ver Crema hidratante">
+          <span class="badge">Hidratantes</span>
+          <img src="index.html/imagenes/cremagydra2.jpg" alt="Crema hidratante">
+          <h3>Crema hidratante</h3>
+        </a>
+        <div class="precio">$400.00</div>
+        <button class="btn" onclick="agregarAlCarrito('Crema hidratante', 400)">Agregar al carrito</button>
+      </div>
+
+      <div class="producto">
+        <a href="productos/serum-vitamina-c.html" title="Ver Serum vitamina C">
+          <span class="badge">Serums</span>
+          <img src="index.html/imagenes/SERUMCAFE.jpg" alt="Serum vitamina C">
+          <h3>Serum vitamina C</h3>
+        </a>
+        <div class="precio">$400.00</div>
+        <button class="btn" onclick="agregarAlCarrito('Serum vitamina C', 400)">Agregar al carrito</button>
+      </div>
+
+      <div class="producto">
+        <a href="productos/mascarilla-arcilla.html" title="Ver Mascarilla de Arcilla">
+          <span class="badge">Mascarillas</span>
+          <img src="imagenes/mascarillarosa.jpg" alt="Mascarilla de Arcilla">
+          <h3>Mascarilla de Arcilla</h3>
+        </a>
+        <div class="precio">$400.00</div>
+        <button class="btn" onclick="agregarAlCarrito('Mascarilla arcilla', 400)">Agregar al carrito</button>
+      </div>
+
+      <div class="producto">
+        <a href="productos/anti-ojeras.html" title="Ver Anti ojeras">
+          <span class="badge">Ojos</span>
+          <img src="index.html/imagenes/eyes1.jpg" alt="Parches anti ojeras">
+          <h3>Anti ojeras</h3>
+        </a>
+        <div class="precio">$250.00</div>
+        <button class="btn" onclick="agregarAlCarrito('Parches anti ojeras', 250)">Agregar al carrito</button>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="maquillaje" class="wrap">
+    <h2>Maquillaje</h2>
+    <div class="tienda">
+
+      <div class="producto">
+        <a href="productos/rubor-liquido.html" title="Ver Rubor líquido">
+          <span class="badge">Mejillas</span>
+          <img src="index.html/imagenes/ruborliquid1.jpg" alt="Rubor líquido">
+          <h3>Rubor líquido</h3>
+        </a>
+        <div class="precio">$660.00</div>
+        <button class="btn" onclick="agregarAlCarrito('Rubor líquido', 660)">Agregar al carrito</button>
+      </div>
+
+      <div class="producto">
+        <a href="productos/tinte-labios.html" title="Ver Tinta de labios">
+          <span class="badge">Labios</span>
+          <img src="imagenes/tintlabios.jpg" alt="Tinte labial">
+          <h3>Tinta de labios</h3>
+        </a>
+        <div class="precio">$990.90</div>
+        <button class="btn" onclick="agregarAlCarrito('Tinte de labios', 990.90)">Agregar al carrito</button>
+      </div>
+
+      <div class="producto">
+        <a href="productos/cushion-base.html" title="Ver Cushion base">
+          <span class="badge">Rostro</span>
+          <img src="index.html/imagenes/c2.jpg" alt="Cushion base">
+          <h3>Cushion base</h3>
+        </a>
+        <div class="precio">$990.90</div>
+        <button class="btn" onclick="agregarAlCarrito('Cushion T2', 990.90)">Agregar al carrito</button>
+      </div>
+
+      <div class="producto">
+        <a href="productos/rimel.html" title="Ver Mascara de pestañas">
+          <span class="badge">Ojos</span>
+          <img src="index.html/imagenes/rimel1.jpg" alt="Rimel">
+          <h3>Mascara de pestañas</h3>
+        </a>
+        <div class="precio">$380.90</div>
+        <button class="btn" onclick="agregarAlCarrito('Rimel', 380.90)">Agregar al carrito</button>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="carrito wrap" id="carrito">
+    <h3>🛒 Carrito</h3>
+    <ul id="lista-carrito"></ul>
+    <p id="total">Total: $0.00</p>
+  </div>
+
+  <section id="contacto" class="wrap">
+    <h2>Contacto</h2>
+    <p>¿Tienes dudas o quieres colaborar? Escríbenos a: contacto@baebeauty.com</p>
+
+    <div class="hosting">
+      <!-- Guía rápida hosting gratis (informativa, no afecta al diseño) -->
+      <p><strong>Hosting gratis sugerido:</strong> GitHub Pages.</p>
+      <ol>
+        <li>Crea cuenta en GitHub y un repositorio llamado <code>baebeauty</code>.</li>
+        <li>Sube tus archivos tal cual: <code>index.html</code>, carpetas <code>imagenes</code>, <code>fuentes</code> y <code>productos</code>.</li>
+        <li>En el repo, ve a <em>Settings → Pages</em>, selecciona la rama <em>main</em> y carpeta <em>root</em>, guarda.</li>
+        <li>Listo: se genera una URL pública para tu proyecto.</li>
+      </ol>
+    </div>
+  </section>
+
+  <script>
+    // ----------------------------
+    // CARRITO con localStorage
+    // ----------------------------
+    const KEY = 'BAE_CART_V1';
+
+    function cargarCarrito(){
+      try{
+        return JSON.parse(localStorage.getItem(KEY)) || [];
+      }catch(e){
+        return [];
+      }
+    }
+
+    function guardarCarrito(items){
+      localStorage.setItem(KEY, JSON.stringify(items));
+    }
+
+    function formatear(n){ return n.toFixed(2); }
+
+    function renderCarrito(){
+      const lista = document.getElementById("lista-carrito");
+      const totalEl = document.getElementById("total");
+      lista.innerHTML = "";
+      const items = cargarCarrito();
+
+      let total = 0;
+      items.forEach((it, idx)=>{
+        total += it.precio * it.cantidad;
+
+        const li = document.createElement("li");
+        li.className = "item-carrito";
+
+        const nombre = document.createElement("span");
+        nombre.textContent = `${it.nombre} — $${formatear(it.precio)}`;
+
+        const qty = document.createElement("div");
+        qty.className = "qty";
+
+        const menos = document.createElement("button");
+        menos.textContent = "−";
+        menos.onclick = ()=>{
+          const data = cargarCarrito();
+          if(data[idx].cantidad > 1){ data[idx].cantidad--; }
+          else { data.splice(idx,1); }
+          guardarCarrito(data);
+          renderCarrito();
+        };
+        const cant = document.createElement("span");
+        cant.textContent = it.cantidad;
+
+        const mas = document.createElement("button");
+        mas.textContent = "+";
+        mas.onclick = ()=>{
+          const data = cargarCarrito();
+          data[idx].cantidad++;
+          guardarCarrito(data);
+          renderCarrito();
+        };
+
+        qty.appendChild(menos);
+        qty.appendChild(cant);
+        qty.appendChild(mas);
+
+        const subt = document.createElement("span");
+        subt.textContent = "$" + formatear(it.precio * it.cantidad);
+
+        const del = document.createElement("button");
+        del.className = "del";
+        del.textContent = "Eliminar";
+        del.onclick = ()=>{
+          const data = cargarCarrito();
+          data.splice(idx,1);
+          guardarCarrito(data);
+          renderCarrito();
+        };
+
+        li.appendChild(nombre);
+        li.appendChild(qty);
+        li.appendChild(subt);
+        li.appendChild(del);
+        lista.appendChild(li);
+      });
+
+      totalEl.textContent = `Total: $${formatear(total)}`;
+    }
+
+    function agregarAlCarrito(nombre, precio){
+      const items = cargarCarrito();
+      const i = items.findIndex(x=>x.nombre===nombre && x.precio===precio);
+      if(i>=0){ items[i].cantidad++; }
+      else { items.push({nombre, precio, cantidad:1}); }
+      guardarCarrito(items);
+      renderCarrito();
+
+      // feedback sutil
+      const carrito = document.getElementById('carrito');
+      carrito.style.boxShadow = '0 0 0 4px rgba(216,27,96,.15)';
+      setTimeout(()=>{ carrito.style.boxShadow='none'; }, 300);
+    }
+
+    // Al cargar, sincronizamos por si agregaron desde páginas de detalle
+    document.addEventListener('DOMContentLoaded', ()=>{
+      renderCarrito();
+
+      // Si la página viene con ?added=Producto, hacemos scroll al carrito
+      const params = new URLSearchParams(location.search);
+      if(params.has('added')){
+        document.getElementById('carrito').scrollIntoView({behavior:'smooth'});
+      }
+    });
+  </script>
+</body>
+</html>
